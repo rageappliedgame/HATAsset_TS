@@ -72,7 +72,7 @@ module AssetPackage {
         /// <returns>
         /// A HATScenario[].
         /// </returns>
-        ///        public get Scenarios(): HATScenario[] {
+        public get Scenarios(): HATScenario[] {
             return this._scenarios;
         }
 

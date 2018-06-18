@@ -14,31 +14,27 @@
 /// limitations under the License.
 ///
 
-/// <reference path="../RageAssetManager/AssetManager.ts"/>
 /// <reference path="../RageAssetManager/BaseAsset.ts"/>
-/// <reference path="../RageAssetManager/IAsset.ts"/>
-/// <reference path="../RageAssetManager/IDataStorage.ts"/>
 /// <reference path="../RageAssetManager/ILog.ts"/>
 ///
-/// <reference path="DifficultyAdapter.ts"/>
+/// <reference path="Misc.ts"/>
+/// <reference path="PlayerNode.ts"/>
+/// <reference path="ScenarioNode.ts"/>
+/// <reference path="Gameplay.ts"/>
 /// <reference path="DifficultyAdapterElo.ts"/>
+/// <reference path="DifficultyAdapter.ts"/>
 ///
 
-module TwoAPackage
+namespace TwoANS
 {
-    import AssetManager = AssetManagerPackage.AssetManager;
-
     import BaseAsset = AssetPackage.BaseAsset;
-    import IAsset = AssetPackage.IAsset;
-    import IDataStorage = AssetPackage.IDataStorage;
     import Severity = AssetPackage.Severity;
 
-    import BaseAdapter = TwoAPackage.BaseAdapter;
-    import DifficultyAdapter = TwoAPackage.DifficultyAdapter;
-    import DifficultyAdapterElo = TwoAPackage.DifficultyAdapterElo;
-    import PlayerNode = TwoAPackage.PlayerNode;
-    import ScenarioNode = TwoAPackage.ScenarioNode;
-    import Gameplay = TwoAPackage.Gameplay;
+    /*import PlayerNode = TwoANS.PlayerNode;
+    import ScenarioNode = TwoANS.ScenarioNode;
+    import Gameplay = TwoANS.Gameplay;
+    import DifficultyAdapterElo = TwoANS.DifficultyAdapterElo;
+    import DifficultyAdapter = TwoANS.DifficultyAdapter;*/
 
     /// <summary>
     /// Export the TwoA asset
@@ -46,25 +42,17 @@ module TwoAPackage
     export class TwoA extends BaseAsset
     {
         //////////////////////////////////////////////////////////////////////////////////////
-        ////// START: constants
-        
-        public static DATE_FORMAT: string = "yyyy-MM-ddThh:mm:ss";
-
-        ////// END: constants
-        //////////////////////////////////////////////////////////////////////////////////////
-
-        //////////////////////////////////////////////////////////////////////////////////////
         ////// START: fields
-
-        /// <summary>
-        /// The adapter based on accuracy (0 or 1) and response time measured in milliseconds.
-        /// </summary>
-        private adapter: DifficultyAdapter;
 
         /// <summary>
         /// The adapter based on accuracy only (any value within [0, 1]); uses Elo equation for expected score.
         /// </summary>
         private adapterElo: DifficultyAdapterElo;
+
+        /// <summary>
+        /// The adapter based on accuracy (0 or 1) and response time measured in milliseconds.
+        /// </summary>
+        private adapter: DifficultyAdapter;
 
         /// <summary>
         /// List of available players.
@@ -394,8 +382,8 @@ module TwoAPackage
             }
             else {
                 this.Log(Severity.Error, "In TwoA.CalculateExpectedScore: Unknown adapter '" + p_adaptID
-                    + "'. No update is done. Returning error code '" + BaseAdapter.ERROR_CODE + "'.");
-                return BaseAdapter.ERROR_CODE;
+                    + "'. No update is done. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -423,7 +411,7 @@ module TwoAPackage
                     , this.adapterElo.TargetLowerLimit, this.adapterElo.TargetUpperLimit);
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetTargetDistribution' method: adapter ID '"
                     + p_adaptID + "' is not recognized. Returning null.");
                 return null;
@@ -446,7 +434,7 @@ module TwoAPackage
                 this.adapterElo.setTargetDistribution(p_mean, p_sd, p_lowerLimit, p_upperLimit);
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetTargetDistribution' method: adapter ID '"
                     + p_adaptID + "' is not recognized.");
             }
@@ -464,7 +452,7 @@ module TwoAPackage
                 this.adapterElo.setDefaultTargetDistribution();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultTargetDistribution' method: adapter ID '"
                     + p_adaptID + "' is not recognized.");
             }
@@ -489,11 +477,11 @@ module TwoAPackage
                 return this.adapterElo.FiSDMultiplier;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetFiSDMultiplier' method: adapter ID '"
                     + p_adaptID + "' is not recognized. Returning error code '"
-                    + BaseAdapter.ErrorCode + "'.");
-                return BaseAdapter.ErrorCode;
+                    + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -510,7 +498,7 @@ module TwoAPackage
                 this.adapterElo.FiSDMultiplier = p_multiplier;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetFiSDMultiplier' method: adapter ID '"
                     + p_adaptID + "' is not recognized.");
             }
@@ -528,7 +516,7 @@ module TwoAPackage
                 this.adapterElo.setDefaultFiSDMultiplier();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultFiSDMultiplier' method: adapter ID '"
                     + p_adaptID + "' is not recognized.");
             }
@@ -553,10 +541,10 @@ module TwoAPackage
                 return this.adapterElo.MaxDelay;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetMaxDelay' method: adapter ID '" + p_adaptID
-                    + "' is not recognized. Returning error code '" + BaseAdapter.ErrorCode + "'.");
-                return BaseAdapter.ErrorCode;
+                    + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -573,7 +561,7 @@ module TwoAPackage
                 this.adapterElo.MaxDelay = p_maxDelay;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetMaxDelay' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -590,7 +578,7 @@ module TwoAPackage
                 this.adapterElo.setDefaultMaxDelay();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultMaxDelay' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -608,10 +596,10 @@ module TwoAPackage
                 return this.adapterElo.MaxPlay;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetMaxPlay' method: adapter ID '" + p_adaptID
-                    + "' is not recognized. Returning error code '" + BaseAdapter.ErrorCode + "'.");
-                return BaseAdapter.ErrorCode;
+                    + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -628,7 +616,7 @@ module TwoAPackage
                 this.adapterElo.MaxPlay = p_maxPlay;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetMaxPlay' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -645,7 +633,7 @@ module TwoAPackage
                 this.adapterElo.setDefaultMaxPlay();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultMaxPlay' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -669,10 +657,10 @@ module TwoAPackage
                 return this.adapterElo.KConst;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetKConst' method: adapter ID '" + p_adaptID
-                    + "' is not recognized. Returning error code '" + BaseAdapter.ErrorCode + "'.");
-                return BaseAdapter.ErrorCode;
+                    + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -689,7 +677,7 @@ module TwoAPackage
                 this.adapterElo.KConst = p_kConst;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetKConst' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -706,7 +694,7 @@ module TwoAPackage
                 this.adapterElo.setDefaultKConst();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultKConst' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -724,10 +712,10 @@ module TwoAPackage
                 return this.adapterElo.KUp;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetKUp' method: adapter ID '" + p_adaptID
-                    + "' is not recognized. Returning error code '" + BaseAdapter.ErrorCode + "'.");
-                return BaseAdapter.ErrorCode;
+                    + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -744,7 +732,7 @@ module TwoAPackage
                 this.adapterElo.KUp = p_kUp;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetKUp' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -761,7 +749,7 @@ module TwoAPackage
                 this.adapterElo.setDefaultKUp();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultKUp' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -779,10 +767,10 @@ module TwoAPackage
                 return this.adapterElo.KDown;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetKDown' method: adapter ID '" + p_adaptID
-                    + "' is not recognized. Returning error code '" + BaseAdapter.ErrorCode + "'.");
-                return BaseAdapter.ErrorCode;
+                    + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -799,7 +787,7 @@ module TwoAPackage
                 this.adapterElo.KDown = p_kDown;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetKDown' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -816,12 +804,303 @@ module TwoAPackage
                 this.adapterElo.setDefaultKDown();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultKDown' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
 
         ////// END: Methods for K factor
+        //////////////////////////////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////////////////////////////
+        ////// START: Methods for the calibration params
+
+        /// <summary>
+        /// Get the player calibration length
+        /// </summary>
+        /// <param name="p_adaptID">Adapter ID</param>
+        /// <returns>Calibration length as int</returns>
+        public GetPlayerCalLength(p_adaptID: string): number {
+            if (p_adaptID === this.adapter.Type) {
+                return this.adapter.PlayerCalLength;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                return this.adapterElo.PlayerCalLength;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.GetPlayerCalLength' method: adapter ID '" + p_adaptID + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
+            }
+        }
+
+        /// <summary>
+        /// Set the player calibration length
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        /// <param name="p_calLength">    The value of the calibration length</param>
+        public SetPlayerCalLength(p_adaptID: string, p_calLength: number): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.PlayerCalLength = p_calLength;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.PlayerCalLength = p_calLength;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetPlayerCalLength' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Set the default calibration length for a player
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        public SetDefaultPlayerCalLength(p_adaptID: string): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.setDefaultPlayerCalLength();
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.setDefaultPlayerCalLength();
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetDefaultPlayerCalLength' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Get the scenario calibration length
+        /// </summary>
+        /// <param name="p_adaptID">Adapter ID</param>
+        /// <returns>Calibration length as int</returns>
+        public GetScenarioCalLength(p_adaptID: string): number {
+            if (p_adaptID === this.adapter.Type) {
+                return this.adapter.ScenarioCalLength;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                return this.adapterElo.ScenarioCalLength;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.GetScenarioCalLength' method: adapter ID '" + p_adaptID + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
+            }
+        }
+
+        /// <summary>
+        /// Set the scenario calibration length
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        /// <param name="p_calLength">    The value of the calibration length</param>
+        public SetScenarioCalLength(p_adaptID: string, p_calLength: number): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.ScenarioCalLength = p_calLength;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.ScenarioCalLength = p_calLength;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetScenarioCalLength' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Set the default calibration length for a scenario
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        public SetDefaultScenarioCalLength(p_adaptID: string): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.setDefaultScenarioCalLength();
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.setDefaultScenarioCalLength();
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetDefaultScenarioCalLength' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Sets the scenario and player calibration lengths to the same value
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        /// <param name="p_calLength">    The value of the calibration length</param>
+        public SetCalLength(p_adaptID: string, p_calLength: number): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.CalLength = p_calLength;
+            } else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.CalLength = p_calLength;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetCalLength' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Sets scenario and player calibration lengths to its default values.
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        public SetDefaultCalLength(p_adaptID: string): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.setDefaultCalLength();
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.setDefaultCalLength();
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetDefaultCalLength' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Get the player calibration K factor
+        /// </summary>
+        /// <param name="p_adaptID">Adapter ID</param>
+        /// <returns>K factor as double</returns>
+        public GetPlayerCalK(p_adaptID: string): number {
+            if (p_adaptID === this.adapter.Type) {
+                return this.adapter.PlayerCalK;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                return this.adapterElo.PlayerCalK;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.GetPlayerCalK' method: adapter ID '" + p_adaptID + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
+            }
+        }
+
+        /// <summary>
+        /// Set the player calibration K factor
+        /// </summary>
+        /// <param name="p_adaptID">  Adapter ID</param>
+        /// <param name="p_calK">     The value of the calibration K factor</param>
+        public SetPlayerCalK(p_adaptID: string, p_calK: number): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.PlayerCalK = p_calK;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.PlayerCalK = p_calK;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetPlayerCalK' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Set the default calibration K factor for a player
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        public SetDefaultPlayerCalK(p_adaptID: string): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.setDefaultPlayerCalK();
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.setDefaultPlayerCalK();
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetDefaultPlayerCalK' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Get the scenario calibration K factor
+        /// </summary>
+        /// <param name="p_adaptID">Adapter ID</param>
+        /// <returns>K factor as double</returns>
+        public GetScenarioCalK(p_adaptID: string): number {
+            if (p_adaptID === this.adapter.Type) {
+                return this.adapter.ScenarioCalK;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                return this.adapterElo.ScenarioCalK;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.GetScenarioCalK' method: adapter ID '" + p_adaptID + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
+            }
+        }
+
+        /// <summary>
+        /// Set the scenario calibration K factor
+        /// </summary>
+        /// <param name="p_adaptID">  Adapter ID</param>
+        /// <param name="p_calK">     The value of the calibration K factor</param>
+        public SetScenarioCalK(p_adaptID: string, p_calK: number): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.ScenarioCalK = p_calK;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.ScenarioCalK = p_calK;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetScenarioCalK' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Set the default calibration K factor for a scenario
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        public SetDefaultScenarioCalK(p_adaptID: string): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.setDefaultScenarioCalK();
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.setDefaultScenarioCalK();
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetDefaultScenarioCalK' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Set the player and scenario calibration K factors
+        /// </summary>
+        /// <param name="p_adaptID">  Adapter ID</param>
+        /// <param name="p_calK">     The value of the calibration K factor</param>
+        public SetCalK(p_adaptID: string, p_calK: number): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.CalK = p_calK;
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.CalK = p_calK;
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetCalK' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        /// <summary>
+        /// Set the default calibration K factor for player and scenario
+        /// </summary>
+        /// <param name="p_adaptID">      Adapter ID</param>
+        public SetDefaultCalK(p_adaptID: string): void {
+            if (p_adaptID === this.adapter.Type) {
+                this.adapter.setDefaultCalK();
+            }
+            else if (p_adaptID === this.adapterElo.Type) {
+                this.adapterElo.setDefaultCalK();
+            }
+            else {
+                this.Log(AssetPackage.Severity.Error
+                    , "In 'TwoA.SetDefaultCalK' method: adapter ID '" + p_adaptID + "' is not recognized.");
+            }
+        }
+
+        ////// END: Methods for the calibration params
         //////////////////////////////////////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -837,10 +1116,10 @@ module TwoAPackage
                 return this.adapterElo.ExpectScoreMagnifier;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetExpectScoreMagnifier' method: adapter ID '" + p_adaptID
-                    + "' is not recognized. Returning error code '" + BaseAdapter.ErrorCode + "'.");
-                return BaseAdapter.ErrorCode;
+                    + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -854,7 +1133,7 @@ module TwoAPackage
                 this.adapterElo.ExpectScoreMagnifier = p_expectScoreMagnifier;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetExpectScoreMagnifier' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -868,7 +1147,7 @@ module TwoAPackage
                 this.adapterElo.setDefaultExpectScoreMagnifier();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultExpectScoreMagnifier' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -883,10 +1162,10 @@ module TwoAPackage
                 return this.adapterElo.MagnifierStepSize;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.GetMagnifierStepSize' method: adapter ID '" + p_adaptID
-                    + "' is not recognized. Returning error code '" + BaseAdapter.ErrorCode + "'.");
-                return BaseAdapter.ErrorCode;
+                    + "' is not recognized. Returning error code '" + Misc.ERROR_CODE + "'.");
+                return Misc.ERROR_CODE;
             }
         }
 
@@ -900,7 +1179,7 @@ module TwoAPackage
                 this.adapterElo.MagnifierStepSize = p_magnifierStepSize;
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetMagnifierStepSize' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -914,7 +1193,7 @@ module TwoAPackage
                 this.adapterElo.setDefaultMagnifierStepSize();
             }
             else {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "In 'TwoA.SetDefaultMagnifierStepSize' method: adapter ID '" + p_adaptID + "' is not recognized.");
             }
         }
@@ -949,7 +1228,7 @@ module TwoAPackage
         public GetPlayerRating(p_adaptID: string, p_gameID: string, p_playerID: string): number {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to get Rating for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'.");
                 throw new ReferenceError(); // [TODO]
@@ -977,7 +1256,7 @@ module TwoAPackage
         public GetPlayerPlayCount(p_adaptID: string, p_gameID: string, p_playerID: string): number {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to get PlayCount for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'.");
                 throw new ReferenceError(); // [TODO]
@@ -1005,7 +1284,7 @@ module TwoAPackage
         public GetPlayerKFactor(p_adaptID: string, p_gameID: string, p_playerID: string): number {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to get KFactor for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'.");
                 throw new ReferenceError(); // [TODO]
@@ -1033,7 +1312,7 @@ module TwoAPackage
         public GetPlayerUncertainty(p_adaptID: string, p_gameID: string, p_playerID: string): number {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to get Uncertainty for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'.");
                 throw new ReferenceError(); // [TODO]
@@ -1061,7 +1340,7 @@ module TwoAPackage
         public GetPlayerLastPlayed(p_adaptID: string, p_gameID: string, p_playerID: string): string {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to get LastPlayed for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'.");
                 throw new ReferenceError(); // [TODO]
@@ -1092,7 +1371,7 @@ module TwoAPackage
         public SetPlayerRating(p_adaptID: string, p_gameID: string, p_playerID: string, p_rating: number): boolean {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to set Rating for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'. Player not found.");
                 return false;
@@ -1117,7 +1396,7 @@ module TwoAPackage
         public SetPlayerPlayCount(p_adaptID: string, p_gameID: string, p_playerID: string, p_playCount: number): boolean {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to set PlayCount for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'. Player not found.");
                 return false;
@@ -1148,7 +1427,7 @@ module TwoAPackage
         public SetPlayerKFactor(p_adaptID: string, p_gameID: string, p_playerID: string, p_kFactor: number): boolean {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to set KFactor for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'. Player not found.");
                 return false;
@@ -1179,7 +1458,7 @@ module TwoAPackage
         public SetPlayerUncertainty(p_adaptID: string, p_gameID: string, p_playerID: string, p_uncertainty: number): boolean {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error
+                this.Log(Severity.Error
                     , "Unable to set Uncertainty for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'. Player not found.");
                 return false;
@@ -1210,7 +1489,7 @@ module TwoAPackage
         public SetPlayerLastPlayed(p_adaptID: string, p_gameID: string, p_playerID: string, p_lastPlayed: string): boolean {
             let player: PlayerNode = this.Player(p_adaptID, p_gameID, p_playerID, true);
             if (typeof player === 'undefined' || player === null) {
-                this.Log(AssetPackage.Severity.Error, "Unable to set LastPlayed for player '" + p_playerID
+                this.Log(Severity.Error, "Unable to set LastPlayed for player '" + p_playerID
                     + "' for adaptation '" + p_adaptID + "' in game '" + p_gameID + "'. Player not found.");
                 return false;
             }
@@ -1321,8 +1600,8 @@ module TwoAPackage
         /// <returns>True if new player node was added and false otherwise.</returns>
         public AddPlayerDefault(p_adaptID: string, p_gameID: string, p_playerID: string): PlayerNode {
             return this.AddPlayer(p_adaptID, p_gameID, p_playerID
-                , BaseAdapter.INITIAL_RATING, 0, BaseAdapter.INITIAL_K_FCT, BaseAdapter.INITIAL_UNCERTAINTY
-                , BaseAdapter.DEFAULT_DATETIME);
+                , Misc.INITIAL_RATING, 0, Misc.INITIAL_K_FCT, Misc.INITIAL_UNCERTAINTY
+                , Misc.DEFAULT_DATETIME);
         }
 
         ////// END: PlayerNode adders
@@ -1905,8 +2184,8 @@ module TwoAPackage
         /// <returns>True if new scenario node was added and false otherwise.</returns>
         public AddScenarioDefault(p_adaptID: string, p_gameID: string, p_scenarioID: string): ScenarioNode {
             return this.AddScenario(p_adaptID, p_gameID, p_scenarioID
-                , BaseAdapter.INITIAL_RATING, 0, BaseAdapter.INITIAL_K_FCT, BaseAdapter.INITIAL_UNCERTAINTY
-                , BaseAdapter.DEFAULT_DATETIME, BaseAdapter.DEFAULT_TIME_LIMIT);
+                , Misc.INITIAL_RATING, 0, Misc.INITIAL_K_FCT, Misc.INITIAL_UNCERTAINTY
+                , Misc.DEFAULT_DATETIME, Misc.DEFAULT_TIME_LIMIT);
         }
 
         ////// END: ScenarioNode adders
@@ -2058,7 +2337,7 @@ module TwoAPackage
         /// <returns>bool</returns>
         public IsValidKFactor(p_kFactor: number): boolean {
             if (p_kFactor <= 0) {
-                this.Log(Severity.Information, "K factor should be equal to or higher than '" + BaseAdapter.MIN_K_FCT + "'.");
+                this.Log(Severity.Information, "K factor should be equal to or higher than '" + Misc.MIN_K_FCT + "'.");
                 return false;
             }
 

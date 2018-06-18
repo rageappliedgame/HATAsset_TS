@@ -14,8 +14,17 @@
 /// limitations under the License.
 ///
 
-module TwoAPackage
+/// <reference path="../Misc.ts"/>
+///
+/// <reference path="PCategory.ts"/>
+/// <reference path="KSGenerator.ts"/>
+///
+
+namespace TwoANS
 {
+    /*import KSGenerator = TwoANS.KSGenerator;
+    import PCategory = TwoANS.PCategory;*/
+    
     /// <summary>
     /// Represents a knowledge state
     /// </summary>

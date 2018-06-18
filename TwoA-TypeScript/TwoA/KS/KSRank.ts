@@ -14,11 +14,15 @@
 /// limitations under the License.
 ///
 
+/// <reference path="KSGenerator.ts"/>
 /// <reference path="KState.ts"/>
 ///
 
-module TwoAPackage
+namespace TwoANS
 {
+    /*import KSGenerator = TwoANS.KSGenerator;
+    import KState = TwoANS.KState;*/
+    
     /// <summary>
     /// Represents a rank in a knowledge structure
     /// </summary>

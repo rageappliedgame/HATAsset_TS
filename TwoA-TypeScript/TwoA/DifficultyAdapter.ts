@@ -16,23 +16,21 @@
 
 /// <reference path="../RageAssetManager/ILog.ts"/>
 ///
+/// <reference path="Misc.ts"/>
 /// <reference path="BaseAdapter.ts"/>
+/// <reference path="TwoA.ts"/>
 /// <reference path="PlayerNode.ts"/>
 /// <reference path="ScenarioNode.ts"/>
-/// <reference path="Gameplay.ts"/>
-/// <reference path="TwoA.ts"/>
-/// <reference path="Misc.ts"/>
 ///
 
-module TwoAPackage
+namespace TwoANS
 {
     import Severity = AssetPackage.Severity;
 
-    import TwoA = TwoAPackage.TwoA;
-    import BaseAdapter = TwoAPackage.BaseAdapter;
-    import PlayerNode = TwoAPackage.PlayerNode;
-    import ScenarioNode = TwoAPackage.ScenarioNode;
-    import Gameplay = TwoAPackage.Gameplay;
+    /*import BaseAdapter = TwoANS.BaseAdapter;
+    import TwoA = TwoANS.TwoA;
+    import PlayerNode = TwoANS.PlayerNode;
+    import ScenarioNode = TwoANS.ScenarioNode;*/
 
     export class DifficultyAdapter extends BaseAdapter
     {
@@ -42,16 +40,24 @@ module TwoAPackage
         /// <summary>
         /// Gets the type of the adapter
         /// </summary>
-        get Type(): string {
+        static get Type(): string {
             return "Game difficulty - Player skill";
         }
 
         /// <summary>
         /// Description of this adapter
         /// </summary>
-        get Description(): string {
+        static get Description(): string {
             return "Adapts game difficulty to player skill. Skill ratings are evaluated for individual players. "
                     + "Requires player accuracy (0 or 1) and response time. Uses a modified version of the CAP algorithm.";
+        }
+
+        get Type(): string {
+            return DifficultyAdapter.Type;
+        }
+
+        get Description(): string {
+            return DifficultyAdapter.Description;
         }
 
         ////// END: properties for the adapter type
@@ -80,9 +86,6 @@ module TwoAPackage
         get TargetDistrMean(): number {
             return this.targetDistrMean;
         }
-        //set TargetDistrMean(p_targetDistrMean: number) {
-        //    this.targetDistrMean = p_targetDistrMean;
-        //}
 
         /// <summary>
         /// Getter for target distribution standard deviation. See 'setTargetDistribution' method for setting a value.
@@ -90,9 +93,6 @@ module TwoAPackage
         get TargetDistrSD(): number {
             return this.targetDistrSD;
         }
-        //set TargetDistrSD(p_targetDistrSD: number) {
-        //    this.targetDistrSD = p_targetDistrSD;
-        //}
 
         /// <summary>
         /// Getter for target distribution lower limit. See 'setTargetDistribution' method for setting a value.
@@ -100,9 +100,6 @@ module TwoAPackage
         get TargetLowerLimit(): number {
             return this.targetLowerLimit;
         }
-        //set TargetLowerLimit(p_targetLowerLimit: number) {
-        //    this.targetLowerLimit = p_targetLowerLimit;
-        //}
 
         /// <summary>
         /// Getter for target distribution upper limit. See 'setTargetDistribution' method for setting a value.
@@ -110,9 +107,6 @@ module TwoAPackage
         get TargetUpperLimit(): number {
             return this.targetUpperLimit;
         }
-        //set TargetUpperLimit(p_targetUpperLimit: number) {
-        //    this.targetUpperLimit = p_targetUpperLimit;
-        //}
 
         /// <summary>
         /// Getter/setter for a weight used to calculate distribution means for a fuzzy selection algorithm.
@@ -122,7 +116,7 @@ module TwoAPackage
         }
         set FiSDMultiplier(p_fiSDMultiplier: number) {
             if (p_fiSDMultiplier <= 0) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In FiSDMultiplier: The standard deviation multiplier '"
                      + p_fiSDMultiplier + "' is less than or equal to 0.");
             }
@@ -159,7 +153,7 @@ module TwoAPackage
 
             // [SD] setting distribution mean
             if (p_tDistrMean <= 0 || p_tDistrMean >= 1) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.setTargetDistribution: The target distribution mean '"
                     + p_tDistrMean + "' is not within the open interval (0, 1).");
 
@@ -168,7 +162,7 @@ module TwoAPackage
 
             // [SC] setting distribution SD
             if (p_tDistrSD <= 0 || p_tDistrSD >= 1) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.setTargetDistribution: The target distribution standard deviation '"
                     + p_tDistrSD + "' is not within the open interval (0, 1).");
 
@@ -177,14 +171,14 @@ module TwoAPackage
 
             // [SC] setting distribution lower limit
             if (p_tLowerLimit < 0 || p_tLowerLimit > 1) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.setTargetDistribution: The lower limit of distribution '"
                     + p_tLowerLimit + "' is not within the closed interval [0, 1].");
 
                 validValuesFlag = false;
             }
             if (p_tLowerLimit >= p_tDistrMean) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.setTargetDistribution: The lower limit of distribution '" + p_tLowerLimit
                     + "' is bigger than or equal to the mean of the distribution '" + p_tDistrMean + "'.");
 
@@ -193,14 +187,14 @@ module TwoAPackage
 
             // [SC] setting distribution upper limit
             if (p_tUpperLimit < 0 || p_tUpperLimit > 1) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.setTargetDistribution: The upper limit of distribution '"
                     + p_tUpperLimit + "' is not within the closed interval [0, 1].");
 
                 validValuesFlag = false;
             }
             if (p_tUpperLimit <= p_tDistrMean) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.setTargetDistribution: The upper limit of distribution '" + p_tUpperLimit
                     + "' is less than or equal to the mean of the distribution '" + p_tDistrMean + "'.");
 
@@ -214,7 +208,7 @@ module TwoAPackage
                 this.targetUpperLimit = p_tUpperLimit;
             }
             else {
-                this.log(AssetPackage.Severity.Warning
+                this.log(Severity.Warning
                     , "In DifficultyAdapter.setTargetDistribution: Invalid value combination is found.");
             }
         }
@@ -239,7 +233,7 @@ module TwoAPackage
         }
         set MaxDelay(p_maxDelay: number) {
             if (p_maxDelay <= 0) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.MaxDelay: The maximum number of delay days '"
                     + p_maxDelay + "' should be higher than 0.");
             }
@@ -263,7 +257,7 @@ module TwoAPackage
         }
         set MaxPlay(p_maxPlay: number) {
             if (p_maxPlay <= 0) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.MaxPlay: The maximum administration parameter '"
                     + p_maxPlay + "' should be higher than 0.");
             }
@@ -301,7 +295,7 @@ module TwoAPackage
         }
         set KConst(p_kConst: number) {
             if (p_kConst <= 0) {
-                this.log(AssetPackage.Severity.Warning
+                this.log(Severity.Warning
                     , "In DifficultyAdapter.KConst: K constant '"
                     + p_kConst + "' cannot be 0 or a negative number.");
             }
@@ -325,7 +319,7 @@ module TwoAPackage
         }
         set KUp(p_kUp: number) {
             if (p_kUp < 0) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.KUp: The upward uncertianty weight '"
                     + p_kUp + "' cannot be a negative number.");
             }
@@ -349,7 +343,7 @@ module TwoAPackage
         }
         set KDown(p_kDown: number) {
             if (p_kDown < 0) {
-                this.log(AssetPackage.Severity.Warning,
+                this.log(Severity.Warning,
                     "In DifficultyAdapter.KDown: The downward uncertainty weight '"
                     + p_kDown + "' cannot be a negative number.");
             }
@@ -369,10 +363,166 @@ module TwoAPackage
         //////////////////////////////////////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////////////////////////////////////
+        ////// START: const, fields, and properties for the calibration phase
+
+        // [SC] The default value for the length (number of gameplays) of player's calibration
+        private static DEF_PLAYER_CAL_LENGTH: number = 30;
+        // [SC] The default value for the length (number of gameplays) of scenario's calibration
+        private static DEF_SCENARIO_CAL_LENGTH: number = 30;
+        // [SC] The default K factor for player's calibration
+        private static DEF_PLAYER_CAL_K: number = 0.1;
+        // [SC] The default K factor for scenario's calibration
+        private static DEF_SCENARIO_CAL_K: number = 0.1;
+
+        private playerCalLength: number = DifficultyAdapter.DEF_PLAYER_CAL_LENGTH;
+        private scenarioCalLength: number = DifficultyAdapter.DEF_SCENARIO_CAL_LENGTH;
+        private playerCalK: number = DifficultyAdapter.DEF_PLAYER_CAL_K;
+        private scenarioCalK: number = DifficultyAdapter.DEF_SCENARIO_CAL_K;
+
+        /// <summary>
+        /// Gets or sets the player's calibration length.
+        /// </summary>
+        get PlayerCalLength(): number {
+            return this.playerCalLength;
+        }
+        set PlayerCalLength(p_playerCalLength: number) {
+            if (p_playerCalLength < 0) {
+                this.log(AssetPackage.Severity.Warning,
+                    "In DifficultyAdapter.PlayerCalLength: The calibration length '" + p_playerCalLength + "' should be equal to or higher than 0.");
+            }
+            else {
+                this.playerCalLength = p_playerCalLength;
+            }
+        }
+
+        /// <summary>
+        /// Sets player calibration length to its default value.
+        /// </summary>
+        public setDefaultPlayerCalLength(): void {
+            this.PlayerCalLength = DifficultyAdapter.DEF_PLAYER_CAL_LENGTH;
+        }
+
+        /// <summary>
+        /// Gets or sets the scenario's calibration length.
+        /// </summary>
+        get ScenarioCalLength(): number {
+            return this.scenarioCalLength;
+        }
+        set ScenarioCalLength(p_scenarioCalLength: number) {
+            if (p_scenarioCalLength < 0) {
+                this.log(AssetPackage.Severity.Warning,
+                    "In DifficultyAdapter.ScenarioCalLength: The calibration length '" + p_scenarioCalLength + "' should be equal to or higher than 0.");
+            }
+            else {
+                this.scenarioCalLength = p_scenarioCalLength;
+            }
+        }
+
+        /// <summary>
+        /// Sets scenario calibration length to its default value.
+        /// </summary>
+        public setDefaultScenarioCalLength(): void {
+            this.ScenarioCalLength = DifficultyAdapter.DEF_SCENARIO_CAL_LENGTH;
+        }
+
+        /// <summary>
+        /// Sets the scenario and player calibration length to the same value
+        /// </summary>
+        set CalLength(p_calLength: number) {
+            if (p_calLength < 0) {
+                this.log(AssetPackage.Severity.Warning,
+                    "In DifficultyAdapter.CalLength: The calibration length '" + p_calLength + "' should be equal to or higher than 0.");
+            }
+            else {
+                this.playerCalLength = p_calLength;
+                this.scenarioCalLength = p_calLength;
+            }
+        }
+
+        /// <summary>
+        /// Sets scenario and player calibration lengths to its default values.
+        /// </summary>
+        public setDefaultCalLength(): void {
+            this.PlayerCalLength = DifficultyAdapter.DEF_PLAYER_CAL_LENGTH;
+            this.ScenarioCalLength = DifficultyAdapter.DEF_SCENARIO_CAL_LENGTH;
+        }
+
+        /// <summary>
+        /// Gets or sets the player calibration K factor.
+        /// </summary>
+        get PlayerCalK(): number {
+            return this.playerCalK;
+        }
+        set PlayerCalK(p_playerCalK: number) {
+            if (p_playerCalK <= 0) {
+                this.log(AssetPackage.Severity.Warning,
+                    "In DifficultyAdapter.PlayerCalK: The calibration K factor '" + p_playerCalK + "' cannot be 0 or a negative number.");
+            }
+            else {
+                this.playerCalK = p_playerCalK;
+            }
+        }
+
+        /// <summary>
+        /// Sets player calibration K factor to its default value.
+        /// </summary>
+        public setDefaultPlayerCalK(): void {
+            this.PlayerCalK = DifficultyAdapter.DEF_PLAYER_CAL_K;
+        }
+
+        /// <summary>
+        /// Gets or sets the scenario calibration K factor.
+        /// </summary>
+        get ScenarioCalK(): number {
+            return this.scenarioCalK;
+        }
+        set ScenarioCalK(p_scenarioCalK: number) {
+            if (p_scenarioCalK <= 0) {
+                this.log(AssetPackage.Severity.Warning,
+                    "In DifficultyAdapter.ScenarioCalK: The calibration K factor '" + p_scenarioCalK + "' cannot be 0 or a negative number.");
+            }
+            else {
+                this.scenarioCalK = p_scenarioCalK;
+            }
+        }
+
+        /// <summary>
+        /// Sets scenario calibration K factor to its default value.
+        /// </summary>
+        public setDefaultScenarioCalK(): void {
+            this.ScenarioCalK = DifficultyAdapter.DEF_SCENARIO_CAL_K;
+        }
+
+        /// <summary>
+        /// Sets the player and scenario calibration K factors to the same value.
+        /// </summary>
+        set CalK(p_calK: number) {
+            if (p_calK <= 0) {
+                this.log(AssetPackage.Severity.Warning,
+                    "In DifficultyAdapter.CalK: The calibration K factor '" + p_calK + "' cannot be 0 or a negative number.");
+            }
+            else {
+                this.playerCalK = p_calK;
+                this.scenarioCalK = p_calK;
+            }
+        }
+
+        /// <summary>
+        /// Sets scenario and player calibration K factors to its default values.
+        /// </summary>
+        public setDefaultCalK(): void {
+            this.PlayerCalK = DifficultyAdapter.DEF_PLAYER_CAL_K;
+            this.ScenarioCalK = DifficultyAdapter.DEF_SCENARIO_CAL_K;
+        }
+
+        ////// END: const, fields, and properties for the calibration phase
+        //////////////////////////////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////////////////////////////
         ////// START: constructor
 
         /// <summary>
-        /// Initializes a new instance of the TwoA.DifficultyAdapter class.
+        /// Initializes a new instance of the DifficultyAdapter class.
         /// </summary>
         constructor() {
             super();
@@ -404,22 +554,22 @@ module TwoAPackage
             , p_customPlayerKfct: number, p_customScenarioKfct: number): boolean {
 
             if (typeof this.asset === 'undefined' || this.asset === null) {
-                this.log(AssetPackage.Severity.Error, "In DifficultyAdapter.UpdateRatings: Unable to update ratings. Asset instance is not detected.");
+                this.log(Severity.Error, "In DifficultyAdapter.UpdateRatings: Unable to update ratings. Asset instance is not detected.");
                 return false;
             }
 
             if (typeof p_playerNode === 'undefined' || p_playerNode === null) {
-                this.log(AssetPackage.Severity.Error, "In DifficultyAdapter.UpdateRatings: Null player node.");
+                this.log(Severity.Error, "In DifficultyAdapter.UpdateRatings: Null player node.");
                 return false;
             }
 
             if (typeof p_scenarioNode === 'undefined' || p_scenarioNode === null) {
-                this.log(AssetPackage.Severity.Error, "In DifficultyAdapter.UpdateRatings: Null scenario node.");
+                this.log(Severity.Error, "In DifficultyAdapter.UpdateRatings: Null scenario node.");
                 return false;
             }
 
             if (!(this.validateCorrectAnswer(p_correctAnswer) && this.validateResponseTime(p_rt))) {
-                this.log(AssetPackage.Severity.Error, "In DifficultyAdapter.UpdateRatings: Unable to update ratings. Invalid response time and/or accuracy detected.");
+                this.log(Severity.Error, "In DifficultyAdapter.UpdateRatings: Unable to update ratings. Invalid response time and/or accuracy detected.");
                 return false;
             }
 
@@ -468,14 +618,14 @@ module TwoAPackage
                 playerNewKFct = p_customPlayerKfct;
             } else {
                 // [SC] calculating player K factors
-                playerNewKFct = this.calcThetaKFctr(playerNewUncertainty, scenarioNewUncertainty);
+                playerNewKFct = this.calcThetaKFctr(playerNewUncertainty, scenarioNewUncertainty, playerPlayCount);
             }
 
             if (p_customScenarioKfct > 0) {
                 scenarioNewKFct = p_customScenarioKfct;
             } else {
                 // [SC] calculating scenario K factor
-                scenarioNewKFct = this.calcBetaKFctr(playerNewUncertainty, scenarioNewUncertainty);
+                scenarioNewKFct = this.calcBetaKFctr(playerNewUncertainty, scenarioNewUncertainty, scenarioPlayCount);
             }
 
             // [SC] calculating player and scenario ratings
@@ -503,7 +653,7 @@ module TwoAPackage
             }
 
             // [SC] creating game log
-            this.asset.CreateNewRecord(this.Type, p_playerNode.GameID, p_playerNode.PlayerID, p_scenarioNode.ScenarioID
+            (this.asset as TwoA).CreateNewRecord(this.Type, p_playerNode.GameID, p_playerNode.PlayerID, p_scenarioNode.ScenarioID
                 , p_rt, p_correctAnswer, playerNewRating, scenarioNewRating, currDateTime);
 
             return true;
@@ -528,7 +678,7 @@ module TwoAPackage
         /// </returns>
         public TargetScenario(p_playerNode: PlayerNode, p_scenarioList: ScenarioNode[]): ScenarioNode {
             if (typeof this.asset === 'undefined' || this.asset === null) {
-                this.log(AssetPackage.Severity.Error
+                this.log(Severity.Error
                     , "In DifficultyAdapter.TargetScenario: Unable to recommend a scenario. Asset instance is not detected.");
                 return null;
             }
@@ -536,13 +686,13 @@ module TwoAPackage
             // [TODO] should check for valid adaptation IDs in the player and scenarios?
 
             if (typeof p_playerNode === 'undefined' || p_playerNode === null) {
-                this.log(AssetPackage.Severity.Error
+                this.log(Severity.Error
                     , "In DifficultyAdapter.TargetScenario: Null player node. Returning null.");
                 return null;
             }
 
             if (typeof p_scenarioList === 'undefined' || p_scenarioList === null || p_scenarioList.length === 0) {
-                this.log(AssetPackage.Severity.Error
+                this.log(Severity.Error
                     , "In DifficultyAdapter.TargetScenario: Null or empty scenario node list. Returning null.");
                 return null;
             }
@@ -631,13 +781,13 @@ module TwoAPackage
         public calcTargetBetas(p_theta: number): number[] {
             // [SC] mean of one-sided normal distribution from which to derive the lower bound of the support in a fuzzy interval
             let lower_distr_mean: number = this.TargetDistrMean - (this.FiSDMultiplier * this.TargetDistrSD);
-            if (lower_distr_mean < BaseAdapter.DistrLowerLimit) {
-                lower_distr_mean = BaseAdapter.DistrLowerLimit;
+            if (lower_distr_mean < Misc.DISTR_LOWER_LIMIT) {
+                lower_distr_mean = Misc.DISTR_LOWER_LIMIT;
             }
             // [SC] mean of one-sided normal distribution from which to derive the upper bound of the support in a fuzzy interval
             let upper_distr_mean: number = this.TargetDistrMean + (this.FiSDMultiplier * this.TargetDistrSD);
-            if (upper_distr_mean > BaseAdapter.DistrUpperLimit) {
-                upper_distr_mean = BaseAdapter.DistrUpperLimit;
+            if (upper_distr_mean > Misc.DISTR_UPPER_LIMIT) {
+                upper_distr_mean = Misc.DISTR_UPPER_LIMIT;
             }
 
             // [SC] the array stores four probabilities (in an ascending order) that represent lower and upper bounds of the support and core 
@@ -650,11 +800,11 @@ module TwoAPackage
                     rndNum = Misc.GetNormal(this.TargetDistrMean, this.TargetDistrSD);
 
                     if (rndNum > this.TargetLowerLimit || rndNum < this.TargetUpperLimit) {
-                        if (rndNum < BaseAdapter.DistrLowerLimit) {
-                            rndNum = BaseAdapter.DistrLowerLimit;
+                        if (rndNum < Misc.DISTR_LOWER_LIMIT) {
+                            rndNum = Misc.DISTR_LOWER_LIMIT;
                         }
-                        else if (rndNum > BaseAdapter.DistrUpperLimit) {
-                            rndNum = BaseAdapter.DistrUpperLimit;
+                        else if (rndNum > Misc.DISTR_UPPER_LIMIT) {
+                            rndNum = Misc.DISTR_UPPER_LIMIT;
                         }
                         break;
                     }
@@ -673,8 +823,8 @@ module TwoAPackage
                 rndNum = Misc.GetNormalOneSide(lower_distr_mean, this.TargetDistrSD, true);
 
                 if (rndNum < randNums[1]) {
-                    if (rndNum < BaseAdapter.DistrLowerLimit) {
-                        rndNum = BaseAdapter.DistrLowerLimit;
+                    if (rndNum < Misc.DISTR_LOWER_LIMIT) {
+                        rndNum = Misc.DISTR_LOWER_LIMIT;
                     }
                     break;
                 }
@@ -686,8 +836,8 @@ module TwoAPackage
                 rndNum = Misc.GetNormalOneSide(upper_distr_mean, this.TargetDistrSD, false);
 
                 if (rndNum > randNums[2]) {
-                    if (rndNum > BaseAdapter.DistrUpperLimit) {
-                        rndNum = BaseAdapter.DistrUpperLimit;
+                    if (rndNum > Misc.DISTR_UPPER_LIMIT) {
+                        rndNum = Misc.DISTR_UPPER_LIMIT;
                     }
                     break;
                 }
@@ -736,18 +886,18 @@ module TwoAPackage
                 && this.validateResponseTime(p_responseTime)
                 && this.validateItemMaxDuration(p_itemMaxDuration))) {
 
-                this.log(AssetPackage.Severity.Error
+                this.log(Severity.Error
                     , "In DifficultyAdapter.calcActualScore: Cannot calculate score."
-                    + " Invalid parameter detected. Returning error code '" + BaseAdapter.ErrorCode + "'.");
+                    + " Invalid parameter detected. Returning error code '" + Misc.ERROR_CODE + "'.");
 
-                return BaseAdapter.ErrorCode;
+                return Misc.ERROR_CODE;
             }
 
             // [SC][2017.01.03]
             if (p_responseTime > p_itemMaxDuration) {
                 p_responseTime = p_itemMaxDuration;
 
-                this.log(AssetPackage.Severity.Warning
+                this.log(Severity.Warning
                     , "In DifficultyAdapter.calcActualScore: Response time '" + p_responseTime
                     + "' exceeds the item's max time duration '" + p_itemMaxDuration
                     + "'. Setting the response time to item's max duration.");
@@ -772,11 +922,11 @@ module TwoAPackage
         /// </returns>
         public calcExpectedScore(p_playerTheta: number, p_itemBeta: number, p_itemMaxDuration: number): number {
             if (!this.validateItemMaxDuration(p_itemMaxDuration)) {
-                this.log(AssetPackage.Severity.Error
+                this.log(Severity.Error
                     , "In DifficultyAdapter.calcExpectedScore: Cannot calculate score."
-                    + " Invalid parameter detected. Returning error code '" + BaseAdapter.ErrorCode + "'.");
+                    + " Invalid parameter detected. Returning error code '" + Misc.ERROR_CODE + "'.");
 
-                return BaseAdapter.ErrorCode;
+                return Misc.ERROR_CODE;
             }
 
             let weight: number = this.getDiscriminationParam(p_itemMaxDuration) * p_itemMaxDuration;
@@ -869,24 +1019,42 @@ module TwoAPackage
         /// Calculates a new K factor for theta rating
         /// </summary>
         ///
-        /// <param name="p_currThetaU">   current uncertainty for the theta rating</param>
-        /// <param name="p_currBetaU">    current uncertainty for the beta rating</param>
+        /// <param name="p_currThetaU">         current uncertainty for the theta rating</param>
+        /// <param name="p_currBetaU">          current uncertainty for the beta rating</param>
+        /// <param name="p_playerPlayCount">    a number of past games played by the player</param>
         /// 
         /// <returns>a double value of a new K factor for the theta rating</returns>
-        public calcThetaKFctr(p_currThetaU: number, p_currBetaU: number): number {
-            return this.KConst * (1.0 + (this.KUp * p_currThetaU) - (this.KDown * p_currBetaU));
+        public calcThetaKFctr(p_currThetaU: number, p_currBetaU: number, p_playerPlayCount: number): number {
+            // [SC] calculate K based on uncertainty
+            let playerK: number = this.KConst * (1.0 + (this.KUp * p_currThetaU) - (this.KDown * p_currBetaU));
+
+            // [SC] check if the player is in calibration phase
+            if (this.PlayerCalLength > p_playerPlayCount) {
+                playerK += this.PlayerCalK;
+            }
+
+            return playerK;
         }
 
         /// <summary>
         /// Calculates a new K factor for the beta rating
         /// </summary>
         /// 
-        /// <param name="p_currThetaU">   current uncertainty fot the theta rating</param>
-        /// <param name="p_currBetaU">    current uncertainty for the beta rating</param>
+        /// <param name="p_currThetaU">             current uncertainty fot the theta rating</param>
+        /// <param name="p_currBetaU">              current uncertainty for the beta rating</param>
+        /// <param name="p_scenarioPlayCount">      a number of past games played with this scenario</param>
         /// 
         /// <returns>a double value of a new K factor for the beta rating</returns>
-        public calcBetaKFctr(p_currThetaU: number, p_currBetaU: number): number {
-            return this.KConst * (1.0 + (this.KUp * p_currBetaU) - (this.KDown * p_currThetaU));
+        public calcBetaKFctr(p_currThetaU: number, p_currBetaU: number, p_scenarioPlayCount: number): number {
+            // [SC] calculate K based on uncertainty
+            let scenarioK: number = this.KConst * (1.0 + (this.KUp * p_currBetaU) - (this.KDown * p_currThetaU));
+
+            // [SC] check if the scenario is in calibration phase
+            if (this.ScenarioCalLength > p_scenarioPlayCount) {
+                scenarioK += this.ScenarioCalK;
+            }
+
+            return scenarioK;
         }
 
         ////// END: functions for calculating k factors
@@ -942,7 +1110,7 @@ module TwoAPackage
         /// <returns>True if the value is valid</returns>
         public validateCorrectAnswer(p_correctAnswer: number): boolean { // [SC][2017.01.03]
             if (p_correctAnswer !== 0 && p_correctAnswer !== 1) {
-                this.log(AssetPackage.Severity.Error
+                this.log(Severity.Error
                     , "In DifficultyAdapter.validateCorrectAnswer: Accuracy should be either 0 or 1. "
                     + "Current value is '" + p_correctAnswer + "'.");
 
@@ -961,7 +1129,7 @@ module TwoAPackage
         /// <returns>True if the value is valid</returns>
         public validateResponseTime(p_responseTime: number): boolean {
             if (p_responseTime <= 0) {
-                this.log(AssetPackage.Severity.Error
+                this.log(Severity.Error
                     , "In DifficultyAdapter.validateResponseTime: Response time cannot be 0 or negative. "
                     + "Current value is '" + p_responseTime + "'.");
 
@@ -980,7 +1148,7 @@ module TwoAPackage
         /// <returns>True if the value is valid</returns>
         public validateItemMaxDuration(p_itemMaxDuration: number): boolean {
             if (p_itemMaxDuration <= 0) {
-                this.log(AssetPackage.Severity.Error
+                this.log(Severity.Error
                     , "In DifficultyAdapter.validateItemMaxDuration: Max playable duration cannot be 0 or negative. "
                         + "Current value is '" + p_itemMaxDuration + "'.");
 

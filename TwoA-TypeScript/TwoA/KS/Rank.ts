@@ -14,8 +14,15 @@
 /// limitations under the License.
 ///
 
-module TwoAPackage
+/// <reference path="PCategory.ts"/>
+/// <reference path="KSGenerator.ts"/>
+///
+
+namespace TwoANS
 {
+    /*import PCategory = TwoANS.PCategory;
+    import KSGenerator = TwoANS.KSGenerator;*/
+
     /// <summary>
     /// Represents a rank in a rank order
     /// </summary>

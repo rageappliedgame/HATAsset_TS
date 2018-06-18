@@ -14,8 +14,15 @@
 /// limitations under the License.
 ///
 
-module TwoAPackage
+/// <reference path="RankOrder.ts"/>
+/// <reference path="KSRank.ts"/>
+///
+
+namespace TwoANS
 {
+    /*import RankOrder = TwoANS.RankOrder;
+    import KSRank = TwoANS.KSRank;*/
+
     /// <summary>
     /// Represents a knowledge structure
     /// </summary>

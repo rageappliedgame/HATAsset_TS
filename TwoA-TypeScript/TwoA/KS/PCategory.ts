@@ -14,8 +14,15 @@
 /// limitations under the License.
 ///
 
-module TwoAPackage
+/// <reference path="../Misc.ts"/>
+///
+/// <reference path="KSGenerator.ts"/>
+///
+
+namespace TwoANS
 {
+    //import KSGenerator = TwoANS.KSGenerator;
+
     /// <summary>
     /// Represents a category of problems of the same structure and difficulty
     /// </summary>

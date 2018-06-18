@@ -14,8 +14,15 @@
 /// limitations under the License.
 ///
 
-module TwoAPackage
+/// <reference path="Rank.ts"/>
+/// <reference path="KSGenerator.ts"/>
+///
+
+namespace TwoANS
 {
+    /*import Rank = TwoANS.Rank;
+    import KSGenerator = TwoANS.KSGenerator;*/
+
     /// <summary>
     /// Represents a rank order from which a knowledge structure can be constructed
     /// </summary>

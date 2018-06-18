@@ -18,7 +18,7 @@
 /// <reference path="Misc.ts"/>
 ///
 
-module TwoAPackage
+namespace TwoANS
 {
     /// <summary>
     /// The Scenario node
@@ -28,12 +28,12 @@ module TwoAPackage
         private adaptID: string;
         private gameID: string;
         private scenarioID: string;
-        private rating: number = BaseAdapter.INITIAL_RATING;
+        private rating: number = Misc.INITIAL_RATING;
         private playCount: number = 0;
-        private kFct: number = BaseAdapter.INITIAL_K_FCT;
-        private uncertainty: number = BaseAdapter.INITIAL_UNCERTAINTY;
+        private kFct: number = Misc.INITIAL_K_FCT;
+        private uncertainty: number = Misc.INITIAL_UNCERTAINTY;
         private lastPlayed: string = Misc.GetDateStr();
-        private timeLimit: number = BaseAdapter.DEFAULT_TIME_LIMIT;
+        private timeLimit: number = Misc.DEFAULT_TIME_LIMIT;
 
         /// <summary>
         /// Identifier for the Adaptation node.

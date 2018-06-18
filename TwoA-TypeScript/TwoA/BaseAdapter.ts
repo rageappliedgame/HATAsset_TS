@@ -15,40 +15,23 @@
 ///
 
 /// <reference path="../RageAssetManager/ILog.ts"/>
-/// 
-/// <reference path="TwoA.ts"/>
+/// <reference path="../RageAssetManager/BaseAsset.ts"/>
+///
 /// <reference path="Misc.ts"/>
 ///
 
-module TwoAPackage
+namespace TwoANS
 {
     import Severity = AssetPackage.Severity;
+    import BaseAsset = AssetPackage.BaseAsset;
 
     export class BaseAdapter
     {
-        //////////////////////////////////////////////////////////////////////////////////////
-        ////// START: const fields
-
-        public static MIN_K_FCT: number = 0.0075;
-        public static INITIAL_K_FCT: number = 0.0375; // [SC] FIDE range for K 40 for new players until 30 completed games, or as long as their rating remains under 2300; K = 20, for players with a rating always under 2400; K = 10, for players with any published rating of at least 2400 and at least 30 games played in previous events. Thereafter it remains permanently at 10.
-        public static INITIAL_RATING: number = 0.01;
-        public static INITIAL_UNCERTAINTY: number = 1.0;
-        public static DEFAULT_TIME_LIMIT: number = 90000; // [SC] in milliseconds
-        public static DEFAULT_DATETIME: string = "2015-07-22T11:56:17";
-
-        ////// END: const fields
-        //////////////////////////////////////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////////////////////////////////////
         ////// START: fields
 
-        protected asset: TwoA; // [ASSET]
-
-        public static UNASSIGNED_TYPE: string = "UNASSIGNED"; // [SC] any adapter should have a Type unique among adapters oof TwoA
-        public static ERROR_CODE: number = -9999;
-
-        public static DISTR_LOWER_LIMIT: number = 0.001;     // [SC] lower limit of any probability value
-        public static DISTR_UPPER_LIMIT: number = 0.999;     // [SC] upper limit of any probability value
+        protected asset: BaseAsset; // [ASSET]
 
         ////// END: fields
         //////////////////////////////////////////////////////////////////////////////////////
@@ -60,35 +43,14 @@ module TwoAPackage
         /// Gets the type of the adapter; It needs to be overriden by inheriting classes
         /// </summary>
         static get Type(): string {
-            return BaseAdapter.UNASSIGNED_TYPE;
+            return Misc.UNASSIGNED_TYPE;
         }
 
         /// <summary>
         /// Description of this adapter. It needs to be overriden by inheriting classes
         /// </summary>
         static get Description(): string {
-            return BaseAdapter.UNASSIGNED_TYPE;
-        }
-
-        /// <summary>
-        /// Getter for a code indicating error. 
-        /// </summary>
-        static get ErrorCode(): number {
-            return BaseAdapter.ERROR_CODE;
-        }
-
-        /// <summary>
-        /// Lower limit of a normal distribution with mean in interval (0, 1)
-        /// </summary>
-        static get DistrLowerLimit(): number {
-            return BaseAdapter.DISTR_LOWER_LIMIT;
-        }
-
-        /// <summary>
-        /// Upper limit of a normal distribution with mean in interval (0,1)
-        /// </summary>
-        static get DistrUpperLimit(): number {
-            return BaseAdapter.DISTR_UPPER_LIMIT;
+            return Misc.UNASSIGNED_TYPE;
         }
 
         ////// END: properties
@@ -99,7 +61,7 @@ module TwoAPackage
 
         constructor() { }
 
-        public InitSettings(p_asset: TwoA) {
+        public InitSettings(p_asset: BaseAsset) {
             this.asset = p_asset; // [ASSET]
         }
 

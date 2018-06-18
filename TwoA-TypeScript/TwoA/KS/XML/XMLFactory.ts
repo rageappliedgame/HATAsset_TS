@@ -17,11 +17,29 @@
 /// <reference path="../../../RageAssetManager/ILog.ts"/>
 /// <reference path="../../../RageAssetManager/Dictionary.ts"/>
 ///
+/// <reference path="../RankOrder.ts"/>
+/// <reference path="../Rank.ts"/>
+/// <reference path="../PCategory.ts"/>
+/// <reference path="../KStructure.ts"/>
+/// <reference path="../KState.ts"/>
+/// <reference path="../KSRank.ts"/>
+///
+/// <reference path="../../TwoA.ts"/>
+///
 
-module TwoAPackage
+namespace TwoANS
 {
     import Severity = AssetPackage.Severity;
     import Dictionary = AssetManagerPackage.Dictionary;
+
+    import RankOrder = TwoANS.RankOrder;
+    import Rank = TwoANS.Rank;
+    import PCategory = TwoANS.PCategory;
+    import KStructure = TwoANS.KStructure;
+    import KState = TwoANS.KState;
+    import KSRank = TwoANS.KSRank;
+
+    import TwoA = TwoANS.TwoA;
 
     /// <summary>
     /// XMLFactory with singleton.

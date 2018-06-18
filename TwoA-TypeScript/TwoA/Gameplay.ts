@@ -18,7 +18,7 @@
 /// <reference path="Misc.ts"/>
 ///
 
-module TwoAPackage
+namespace TwoANS
 {
     /// <summary>
     /// A TwoA gameplay.

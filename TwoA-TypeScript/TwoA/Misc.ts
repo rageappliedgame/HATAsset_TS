@@ -14,8 +14,29 @@
 /// limitations under the License.
 ///
 
-module Misc
+namespace Misc
 {
+    //////////////////////////////////////////////////////////////////////////////////////
+    ////// START: const fields
+
+    export const DATE_FORMAT: string = "yyyy-MM-ddThh:mm:ss";
+
+    export const MIN_K_FCT: number = 0.0075;
+    export const INITIAL_K_FCT: number = 0.0375; // [SC] FIDE range for K 40 for new players until 30 completed games, or as long as their rating remains under 2300; K = 20, for players with a rating always under 2400; K = 10, for players with any published rating of at least 2400 and at least 30 games played in previous events. Thereafter it remains permanently at 10.
+    export const INITIAL_RATING: number = 0.01;
+    export const INITIAL_UNCERTAINTY: number = 1.0;
+    export const DEFAULT_TIME_LIMIT: number = 90000; // [SC] in milliseconds
+    export const DEFAULT_DATETIME: string = "2015-07-22T11:56:17";
+
+    export const UNASSIGNED_TYPE: string = "UNASSIGNED"; // [SC] any adapter should have a Type unique among adapters oof TwoA
+    export const ERROR_CODE: number = -9999;
+
+    export const DISTR_LOWER_LIMIT: number = 0.001;     // [SC] lower limit of any probability value
+    export const DISTR_UPPER_LIMIT: number = 0.999;     // [SC] upper limit of any probability value
+
+    ////// END: const fields
+    //////////////////////////////////////////////////////////////////////////////////////
+
     export function IsNullOrEmpty(p_string: string): boolean {
         if (typeof p_string !== 'undefined' && p_string) {
             return false;

@@ -18,6 +18,7 @@
 /// <reference path="RageAssetManager/AssetManager.ts"/>
 /// <reference path="RageAssetManager/Messages.ts"/>
 /// 
+/// <reference path="TwoA/Misc.ts"/>
 /// <reference path="TwoA/TwoA.ts"/>
 /// <reference path="TwoA/ScenarioNode.ts"/>
 /// <reference path="TwoA/PlayerNode.ts"/>
@@ -39,18 +40,18 @@ module TestPackage
     import AssetManager = AssetManagerPackage.AssetManager;
     import Severity = AssetPackage.Severity;
 
-    import TwoA = TwoAPackage.TwoA;
-    import ScenarioNode = TwoAPackage.ScenarioNode;
-    import PlayerNode = TwoAPackage.PlayerNode;
-    import BaseAdapter = TwoAPackage.BaseAdapter;
+    import TwoA = TwoANS.TwoA;
+    import ScenarioNode = TwoANS.ScenarioNode;
+    import PlayerNode = TwoANS.PlayerNode;
+    import BaseAdapter = TwoANS.BaseAdapter;
 
-    import KSGenerator = TwoAPackage.KSGenerator;
-    import KStructure = TwoAPackage.KStructure;
-    import KSRank = TwoAPackage.KSRank;
-    import RankOrder = TwoAPackage.RankOrder;
-    import Rank = TwoAPackage.Rank;
-    import PCategory = TwoAPackage.PCategory;
-    import XMLFactory = TwoAPackage.XMLFactory;
+    import KSGenerator = TwoANS.KSGenerator;
+    import KStructure = TwoANS.KStructure;
+    import KSRank = TwoANS.KSRank;
+    import RankOrder = TwoANS.RankOrder;
+    import Rank = TwoANS.Rank;
+    import PCategory = TwoANS.PCategory;
+    import XMLFactory = TwoANS.XMLFactory;
 
     import Bridge = MyNameSpace.Bridge;
 
@@ -61,11 +62,11 @@ module TestPackage
 
         //////////////////////////////////////////////////////////////
 
-        Tests.testKnowledgeSpaceGeneration();
+        //Tests.testKnowledgeSpaceGeneration();
 
         //Tests.testingScoreCalculation();
 
-        //Tests.demoAdaptationAndAssessment();
+        Tests.demoAdaptationAndAssessment();
 
         //Tests.demoAdaptationAndAssessmentElo();
     };
@@ -80,7 +81,7 @@ module TestPackage
             let playerID: string = "Noob"; // [SC] using this player as an example
             let scenarioID: string = "Hard AI"; // [SC] using this scenario as an example
             let updateScenarioRatings: boolean = true;  // [SC] alwyas update scenario ratings
-            let lastPlayed: string = BaseAdapter.DEFAULT_DATETIME;
+            let lastPlayed: string = Misc.DEFAULT_DATETIME;
 
             // [SC] instantiate the TwoA asset
             this.twoA = new TwoA();
@@ -236,7 +237,7 @@ module TestPackage
             //    Play count: 100
             //    K factor: 0.0075
             //    Uncertainty: 0.01
-            //    Last played: 2015 - 07 - 22T11: 56:17
+            //    Last played: 2015-07-22T11:56:17
             //    Time limit: 900000
             //
             //Example player parameters:
@@ -245,7 +246,7 @@ module TestPackage
             //    Play count: 100
             //    K factor: 0.0075
             //    Uncertainty: 0.01
-            //    Last played: 2015 - 07 - 22T11: 56:17
+            //    Last played: 2015-07-22T11:56:17
             //
             //Ask 10 times for a recommended scenarios for the player Noob; P = 0.75:
             //    Medium Color AI
@@ -274,87 +275,87 @@ module TestPackage
             //Recommended difficulty rating 4.40138771133189 for player rating 5.5 and success rate 0.75
             //Recommended difficulty rating 7.69722457733622 for player rating 5.5 and success rate 0.1
             //
-            //1st simulated gameplay.Player's accuracy is 1.0. Expected accuracy is 0.3775400516846862. Player rating increases and scenario rating decreases:
+            //1st simulated gameplay. Player's accuracy is 1.0. Expected accuracy is 0.3775400516846862. Player rating increases and scenario rating decreases:
             //    PlayerID: Noob
             //    Rating: 5.520762929650993
             //    Play count: 101
             //    K factor: 0.03335625
             //    Uncertainty: 0.985
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //
             //    ScenarioID: Hard AI
             //    Rating: 5.979237070349007
             //    Play count: 101
             //    K factor: 0.03335625
             //    Uncertainty: 0.985
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //    Time limit: 900000
             //
-            //2nd simulated gameplay.Player's accuracy is 0.75. Expected accuracy is 0.3873472910477033. Player rating increases and scenario rating decreases:
+            //2nd simulated gameplay. Player's accuracy is 0.75. Expected accuracy is 0.3873472910477033. Player rating increases and scenario rating decreases:
             //    PlayerID: Noob
             //    Rating: 5.532621673233733
             //    Play count: 102
             //    K factor: 0.03269999999999999
             //    Uncertainty: 0.96
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //
             //    ScenarioID: Hard AI
             //    Rating: 5.967378326766267
             //    Play count: 102
             //    K factor: 0.03269999999999999
             //    Uncertainty: 0.96
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //    Time limit: 900000
             //
-            //3rd simulated gameplay.Player's accuracy is 0.5. Expected accuracy is 0.39299051581039013. Player rating increases slightly and scenario rating decreases slightly:
+            //3rd simulated gameplay. Player's accuracy is 0.5. Expected accuracy is 0.39299051581039013. Player rating increases slightly and scenario rating decreases slightly:
             //    PlayerID: Noob
             //    Rating: 5.5360506583927345
             //    Play count: 103
             //    K factor: 0.032043749999999996
             //    Uncertainty: 0.9349999999999999
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //
             //    ScenarioID: Hard AI
             //    Rating: 5.9639493416072655
             //    Play count: 103
             //    K factor: 0.032043749999999996
             //    Uncertainty: 0.9349999999999999
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //    Time limit: 900000
             //
-            //4th simulated gameplay.Player's accuracy is 0.25. Expected accuracy is 0.39462768121280367. Player rating decreass and scenario rating increases:
+            //4th simulated gameplay. Player's accuracy is 0.25. Expected accuracy is 0.39462768121280367. Player rating decreass and scenario rating increases:
             //    PlayerID: Noob
             //    Rating: 5.5315111570486675
             //    Play count: 104
             //    K factor: 0.0313875
             //    Uncertainty: 0.9099999999999999
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //
             //    ScenarioID: Hard AI
             //    Rating: 5.9684888429513325
             //    Play count: 104
             //    K factor: 0.0313875
             //    Uncertainty: 0.9099999999999999
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //    Time limit: 900000
             //
-            //5th simulated gameplay.Player's accuracy is 0.0. Expected accuracy is 0.3924608141563093. Player rating decreass and scenario rating increases:
+            //5th simulated gameplay. Player's accuracy is 0.0. Expected accuracy is 0.3924608141563093. Player rating decreass and scenario rating increases:
             //    PlayerID: Noob
             //    Rating: 5.519450345653627
             //    Play count: 105
             //    K factor: 0.030731249999999995
             //    Uncertainty: 0.8849999999999999
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //
             //    ScenarioID: Hard AI
             //    Rating: 5.980549654346373
             //    Play count: 105
             //    K factor: 0.030731249999999995
             //    Uncertainty: 0.8849999999999999
-            //    Last played: 2017 - 11 - 06T09: 28:41
+            //    Last played: 2017-11-06T09:28:41
             //    Time limit: 900000
             //
-            //6th simulated gameplay.Using custom K factor to scale rating changes.Player rating increases and scenario rating decreases:
+            //6th simulated gameplay. Using custom K factor to scale rating changes.Player rating increases and scenario rating decreases:
             //    Player ID: Noob
             //    Rating: 5.530375856455682
             //    K factor: 0.030074999999999998
@@ -367,7 +368,7 @@ module TestPackage
             //    Rating: 5.969624143544318
             //    K factor: 0.030074999999999998
             //
-            //    ScenarioID(custom K factor): Hard AI
+            //    ScenarioID (custom K factor): Hard AI
             //    Rating: 5.61727414970613
             //    K factor: 1
             //
@@ -381,7 +382,7 @@ module TestPackage
             let playerID: string = "Noob"; // [SC] using this player as an example
             let scenarioID: string = "Hard AI"; // [SC] using this scenario as an example
             let updateScenarioRatings: boolean = true;  // [SC] alwyas update scenario ratings
-            let lastPlayed: string = BaseAdapter.DEFAULT_DATETIME;
+            let lastPlayed: string = Misc.DEFAULT_DATETIME;
 
             // [SC] instantiate the TwoA asset
             this.twoA = new TwoA();
@@ -573,7 +574,7 @@ module TestPackage
             //    Play count: 100
             //    K factor: 0.0075
             //    Uncertainty: 0.01
-            //    Last played: 2015 - 07 - 22T11: 56:17
+            //    Last played: 2015-07-22T11:56:17
             //    Time limit: 900000
             //
             //Example player parameters:
@@ -582,7 +583,7 @@ module TestPackage
             //    Play count: 100
             //    K factor: 0.0075
             //    Uncertainty: 0.01
-            //    Last played: 2015 - 07 - 22T11: 56:17
+            //    Last played: 2015-07-22T11:56:17
             //
             //Ask 10 times for a recommended scenarios for the player Noob; P = 0.75:
             //    Hard AI
@@ -617,14 +618,14 @@ module TestPackage
             //    Play count: 101
             //    K factor: 0.03335625
             //    Uncertainty: 0.985
-            //    Last played: 2017 - 11 - 06T09: 49:15
+            //    Last played: 2017-11-06T09:49:15
             //
             //    ScenarioID: Hard AI
             //    Rating: 5.96562237894298
             //    Play count: 101
             //    K factor: 0.03335625
             //    Uncertainty: 0.985
-            //    Last played: 2017 - 11 - 06T09: 49:15
+            //    Last played: 2017-11-06T09:49:15
             //    Time limit: 900000
             //
             //Second simulated gameplay.Player performed well again.Player rating increases and scenario rating decreases:
@@ -633,14 +634,14 @@ module TestPackage
             //    Play count: 102
             //    K factor: 0.03269999999999999
             //    Uncertainty: 0.96
-            //    Last played: 2017 - 11 - 06T09: 49:15
+            //    Last played: 2017-11-06T09:49:15
             //
             //    ScenarioID: Hard AI
             //    Rating: 5.936635742667915
             //    Play count: 102
             //    K factor: 0.03269999999999999
             //    Uncertainty: 0.96
-            //    Last played: 2017 - 11 - 06T09: 49:15
+            //    Last played: 2017-11-06T09:49:15
             //    Time limit: 900000
             //
             //Third simulated gameplay.Player performed poorly.Player rating decreass and scenario rating increases:
@@ -649,14 +650,14 @@ module TestPackage
             //    Play count: 103
             //    K factor: 0.032043749999999996
             //    Uncertainty: 0.9349999999999999
-            //    Last played: 2017 - 11 - 06T09: 49:15
+            //    Last played: 2017-11-06T09:49:15
             //
             //    ScenarioID: Hard AI
             //    Rating: 5.964301786328902
             //    Play count: 103
             //    K factor: 0.032043749999999996
             //    Uncertainty: 0.9349999999999999
-            //    Last played: 2017 - 11 - 06T09: 49:15
+            //    Last played: 2017-11-06T09:49:15
             //    Time limit: 900000
             //
             //Fourth simulated gameplay.Using custom K factor to scale rating changes.Player rating increases and scenario rating decreases:
@@ -1258,7 +1259,7 @@ module TestPackage
             let playerID: string = "Noob"; // [SC] using this player as an example
             let scenarioID: string = "Hard AI"; // [SC] using this scenario as an example
             let updateScenarioRatings: boolean = true;  // [SC] alwyas update scenario ratings
-            let lastPlayed: string = BaseAdapter.DEFAULT_DATETIME;
+            let lastPlayed: string = Misc.DEFAULT_DATETIME;
 
             // [SC] instantiate the TwoA asset
             this.twoA = new TwoA();

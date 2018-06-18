@@ -18,7 +18,7 @@
 /// <reference path="Misc.ts"/>
 ///
 
-module TwoAPackage
+namespace TwoANS
 {
     /// <summary>
     /// The Player node
@@ -28,10 +28,10 @@ module TwoAPackage
         private adaptID: string;
         private gameID: string;
         private playerID: string;
-        private rating: number = BaseAdapter.INITIAL_RATING;
+        private rating: number = Misc.INITIAL_RATING;
         private playCount: number = 0;
-        private kFct: number = BaseAdapter.INITIAL_K_FCT;
-        private uncertainty: number = BaseAdapter.INITIAL_UNCERTAINTY;
+        private kFct: number = Misc.INITIAL_K_FCT;
+        private uncertainty: number = Misc.INITIAL_UNCERTAINTY;
         private lastPlayed: string = Misc.GetDateStr();
 
         /// <summary>
